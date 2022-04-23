@@ -11,7 +11,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding,HomeViewModel>(
     FragmentHomeBinding::inflate
 ) {
     override val viewModel by viewModels<HomeViewModel>()
-        
+
 
     override fun onCreatedFinished() {
         TODO("Not yet implemented")
