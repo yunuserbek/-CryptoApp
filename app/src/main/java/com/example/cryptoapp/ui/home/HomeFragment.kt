@@ -1,10 +1,12 @@
 package com.example.cryptoapp.ui.home
 
 
+import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.Navigation
 import com.example.cryptoapp.base.BaseFragment
 import com.example.cryptoapp.databinding.FragmentHomeBinding
 import com.example.cryptoapp.model.home.Data
@@ -17,11 +19,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     FragmentHomeBinding::inflate
 ) {
     override val viewModel by viewModels<HomeViewModel>()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel.getData(API_KEY, LIMIT)
+        super.onCreate(savedInstanceState)
+    }
 
 
 
     override fun onCreatedFinished() {
-      viewModel.getData(API_KEY, LIMIT)
+
 
     }
 
@@ -47,7 +53,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(
     private fun setRecycler(data:List<Data>){
         val mAdapter = HomeRecyclerAdapter(object :ItemClickListener{
             override fun onItemClick(coin: Data) {
-                //TODO diger ekrena yolla
+                if (coin.symbol != null){
+                    val navigation = HomeFragmentDirections.actionHomeFragmentToDetailFragment(coin.symbol)
+                    Navigation.findNavController(requireView()).navigate(navigation)
+
+                }
             }
 
         })
